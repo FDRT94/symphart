@@ -4,8 +4,28 @@
 
 {% block body %}
     <div id="app">
-        <div class="container">
-            <h2>Articles</h2>
-        </div>
+        {% if articles %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Article Title</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.title }}</td>
+                        <td>
+                            <a href="/article/{{ article.id }}" class="btn btn-dark">Show</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h2 class="text-center">No Articles to display</h2>
+        {% endif %}
     </div>
 {% endblock %}
