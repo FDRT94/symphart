@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    {% block stylesheets %}{% endblock %}
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    {% endblock %}
+
 </head>
 <body>
 {{ include('inc/navbar.html.twig') }}

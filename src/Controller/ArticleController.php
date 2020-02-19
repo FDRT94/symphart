@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class ArticleController extends AbstractController
 
@@ -32,11 +34,11 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/article/new/" , name="new_article", methods={"GET","POST"})
-     * add validator and csrf later
+     * @param ValidatorInterface $validator
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function new(Request $request)
+    public function new(ValidatorInterface $validator,Request $request)
     {
         $article = New Article();
 
@@ -50,6 +52,11 @@ class ArticleController extends AbstractController
                 'label' => 'Create',
                 'attr' => array('class' => 'btn btn-primary mt-3')))
             ->getForm();
+
+        $errors = $validator->validate($article);
+        if (count($errors) > 0) {
+            return new Response((string) $errors, 400);
+        }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -108,6 +115,12 @@ class ArticleController extends AbstractController
     public function show($id)
     {
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+
+        if (!$article) {
+            throw $this->createNotFoundException(
+                 "No Article found for id ".$id
+            );
+        }
 
         return $this->render('articles/show.html.twig', array('article' => $article));
     }

@@ -7,16 +7,20 @@
         {% if articles %}
             <table id="articles" class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>Article Title</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>Article Title</th>
+                    <th>Actions</th>
+                    <th></th>
+                    <th></th>
+                </tr>
                 </thead>
 
                 <tbody>
                 {% for article in articles %}
                     <tr>
-                        <td>{{ article.title }}</td>
+                        <td>
+                            <a href="/article/{{ article.id }}">{{ article.title }}</a>
+                        </td>
                         <td>
                             <a href="/article/{{ article.id }}" class="btn btn-dark">Show</a>
                         </td>
@@ -30,6 +34,10 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            <a href="/article/new" type="button" class="btn btn-primary">Create Article</a>
+
+
         {% else %}
             <h2 class="text-center">No Articles to display</h2>
         {% endif %}
