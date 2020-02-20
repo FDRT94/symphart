@@ -22,7 +22,7 @@ class ArticleController extends AbstractController
 
 {
     /**
-     * @Route("/", methods={"GET"}, name="article_list")
+     * @Route("/article", methods={"GET"}, name="article_list")
      */
     public function index()
     {
